@@ -1,12 +1,10 @@
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Layout from '../components/Layout'
 
 import styles from '../styles/Components/Profile.module.scss'
 
 const Profile = () => {
   return (
     <>
-      <Header />
       <section className={styles.mainContainer}>
         <div className={styles.Perfil}>
           <div className={styles.Super}>
@@ -42,7 +40,6 @@ const Profile = () => {
           </div>
         </form>
       </section>
-      <Footer />
     </>
   )
 }
