@@ -4,7 +4,25 @@ import axios from 'axios'
 
 function AnnouncingRoom ({ handleClose, show, modal, props }) {
   const showHideClassName = show ? style.principalContainer : style.displayNone
-  const usuario = JSON.parse(localStorage.getItem('usuario'))
+  const usuario = user()
+  const arr = {
+    idHost: '',
+    hostName: '',
+    phone: '',
+    email: ''
+  }
+  function user () {
+    try {
+      const user = JSON.parse(sessionStorage.getItem('usuario'))
+      arr.idHost = user.user.id
+      arr.hostName = user.user.name
+      arr.phone = user.user.phone
+      arr.email = user.user.email
+      return user
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const [form, setValues] = useState({
     profileImg: '',
@@ -19,8 +37,10 @@ function AnnouncingRoom ({ handleClose, show, modal, props }) {
     Lavanderia: false,
     Telefono: false,
     Tv: false,
-    idHost: parseInt(usuario.user.id),
-    hostName: usuario.user.name
+    idHost: arr.idHost,
+    hostName: arr.hostName,
+    phone: arr.phone,
+    email: arr.email
   })
 
   const handleInput = (event) => {
@@ -67,7 +87,7 @@ function AnnouncingRoom ({ handleClose, show, modal, props }) {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const url = 'http://localhost:8080/api/rooms'
+    const url = 'https://roomie.vercel.app/api/rooms'
     axios({
       method: 'post',
       url: url,
@@ -80,13 +100,14 @@ function AnnouncingRoom ({ handleClose, show, modal, props }) {
         location: form.location,
         description: form.roomDescription,
         DescriptionLocal: form.locationDesc,
-        Wc: form.Wc,
+        wc: form.Wc,
         Wifi: form.Wifi,
-        Desayuno: form.Desayuno,
-        Lavanderia: form.Lavanderia,
-        Telefono: form.Telefono,
+        desyuno: form.Desayuno,
+        Lacanderia: form.Lavanderia,
+        telefono: form.Telefono,
         Tv: form.tv,
-        idHost: form.idHost,
+        telefonoHost: form.phone,
+        correoHost: form.email,
         nameHost: form.hostName,
         createdAt: Date.now()
       }
@@ -95,6 +116,7 @@ function AnnouncingRoom ({ handleClose, show, modal, props }) {
     }).catch((error) => {
       console.log(error)
     })
+    modal(0)
   }
 
   return (
